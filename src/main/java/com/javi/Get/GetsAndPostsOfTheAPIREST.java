@@ -1,4 +1,10 @@
 package com.javi.Get;
+
+//nuevos imports
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.javi.ProjectoFinal.MineSquare;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -17,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class GetsAndPostsOfTheAPIREST {
 
     // one instance, reuse
@@ -27,9 +34,8 @@ public class GetsAndPostsOfTheAPIREST {
         GetsAndPostsOfTheAPIREST obj = new GetsAndPostsOfTheAPIREST();
 
         try {
-            //System.out.println("Testing 1 - Send Http GET request");
-            //obj.sendGetGameRid();
-
+            System.out.println("Testing 1 - Send Http GET request");
+            obj.sendGetGameRid();
 
             //System.out.println("Testing 2 - Send Http POST CREATE GAME request");
             //obj.PostCreateGame();
@@ -37,20 +43,19 @@ public class GetsAndPostsOfTheAPIREST {
             //System.out.println("Testing 3 - Send Http POST CREATE-CUSTOM-GAME");
             //obj.PostCreateCustomGame();
 
-            System.out.println("Testing 4 - Send Http GET RESTORE GAME request");
-            obj.sendGetRestoreGame();
+            //System.out.println("Testing 4 - Send Http GET RESTORE GAME request");
+            //obj.sendGetRestoreGame();
         } finally {
             obj.close();
         }
     }
 
-    private void close() throws IOException {
+    private void close() throws Exception {
         httpClient.close();
     }
 
-    private void sendGetGameRid() throws Exception {
-
-        HttpGet request = new HttpGet("https://minesweeper-api-game.herokuapp.com/get-game-grid?user=raul");
+    public MineSquare[][] sendGetGameRid() throws Exception {
+        HttpGet request = new HttpGet("https://minesweeper-api-game.herokuapp.com/get-game-grid?user=1");
 
         // add request headers
         System.out.println("request headers?");
@@ -58,25 +63,25 @@ public class GetsAndPostsOfTheAPIREST {
         request.addHeader(HttpHeaders.USER_AGENT, "Googlebot");
 
         try (CloseableHttpResponse response = httpClient.execute(request)) {
-
-            // Get HttpResponse Status
             System.out.println("STATUS");
             System.out.println(response.getStatusLine().toString());
 
             HttpEntity entity = response.getEntity();
             Header headers = entity.getContentType();
             System.out.println(headers);
-
             if (entity != null) {
-                // return it as a String
                 String result = EntityUtils.toString(entity);
-                System.out.println("haca muestra el resultado");
-                System.out.println(result);
+                return restoreGameGridJson(result);
             }
-
         }
-
+        return null;
     }
+
+    private MineSquare[][] restoreGameGridJson(String gameGridJson) throws Exception{
+        ObjectMapper mapper = new ObjectMapper(); //ES UTILIZADO PARA TRANSFORMAR UN VALOR EN UN OBJETO, YA DEBEN EXISTIR LAS CARACTERISTICAS DE DICHO OBJETO PARA ESTE PROCESO
+        return mapper.readValue(gameGridJson,MineSquare[][].class);
+    }
+
     private void PostCreateGame() throws Exception {
 
         HttpPost post = new HttpPost("https://minesweeper-api-game.herokuapp.com/create-game?user=raul");
@@ -104,27 +109,5 @@ public class GetsAndPostsOfTheAPIREST {
             System.out.println(EntityUtils.toString(response.getEntity()));
         }
     }
-    private void sendGetRestoreGame() throws Exception{
-        HttpGet requestRG = new HttpGet("https://minesweeper-api-game.herokuapp.com/restore-game?user=raul");
-        // add request headers
-        System.out.println("request headers?");
-        requestRG.addHeader("custom-key", "mkyong");
-        requestRG.addHeader(HttpHeaders.USER_AGENT, "Googlebot");
-        try (CloseableHttpResponse response = httpClient.execute(requestRG)) {
 
-            // Get HttpResponse Status
-            System.out.println("STATUS");
-            System.out.println(response.getStatusLine().toString());
-
-            HttpEntity entity = response.getEntity();
-            Header headers = entity.getContentType();
-            System.out.println(headers);
-
-            if (entity != null) {
-                String result = EntityUtils.toString(entity);
-                System.out.println("haca muestra el resultado");
-                System.out.println(result);
-            }
-        }
-    }
 }

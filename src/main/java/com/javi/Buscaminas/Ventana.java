@@ -1,5 +1,8 @@
 package com.javi.Buscaminas;
 
+import com.javi.Get.GetsAndPostsOfTheAPIREST;
+import com.javi.ProjectoFinal.MineSquare;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class Ventana extends JFrame {
+public class Ventana extends JFrame{
 
     JPanel panelControl = new JPanel();
     JLabel etiqueta1 = new JLabel();
@@ -40,7 +43,7 @@ public class Ventana extends JFrame {
     JButton boton19 = new JButton();
     JButton boton20 = new JButton();
 
-    public Ventana() {
+    public Ventana() throws Exception{
         setTitle("Buscaminas");
         setSize(435, 465);
         //setLocation(int,int); //establece la posicion incial de la ventana
@@ -55,14 +58,15 @@ public class Ventana extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE); // para que le programa termine al tocar la X
     }
 
-    private void iniciarComponentes() {
+    private void iniciarComponentes() throws Exception{
         establecerPanel();
         establecerBotones();
         establecerEtiquetas();
         eventos();
+
     }
 
-    private void establecerPanel() {
+    private void establecerPanel() throws Exception{
         panelControl = new JPanel(); //creacion de un panel
         panelControl.setBackground(Color.YELLOW); //apra darle color al panel
         this.getContentPane().add(panelControl); //agregamos el panel a la ventana
@@ -70,74 +74,23 @@ public class Ventana extends JFrame {
         panelControl.setSize(50, 50); //para que sirve?
     }
 
-    private void establecerBotones() {
+    private void establecerBotones() throws Exception{
         comenzar = new JButton();
         comenzar.setBounds(160, 10, 100, 50);
-        comenzar.setText("Reinicar");
+        comenzar.setText("Reiniciar");
         panelControl.add(comenzar);
 
-        boton1 = new JButton();
-        boton2 = new JButton();
-        boton3 = new JButton();
-        boton4 = new JButton();
-        boton5 = new JButton();
-        boton6 = new JButton();
-        boton7 = new JButton();
-        boton8 = new JButton();
-        boton9 = new JButton();
-        boton10 = new JButton();
-        boton11 = new JButton();
-        boton12 = new JButton();
-        boton13 = new JButton();
-        boton14 = new JButton();
-        boton15 = new JButton();
-        boton16 = new JButton();
-        boton17 = new JButton();
-        boton18 = new JButton();
-        boton19 = new JButton();
-        boton20 = new JButton();
+        GetsAndPostsOfTheAPIREST pruebaArray = new GetsAndPostsOfTheAPIREST();
 
-        boton1.setBounds(10, 70, 100, 50);
-        boton2.setBounds(110, 70, 100, 50);
-        boton3.setBounds(210, 70, 100, 50);
-        boton4.setBounds(310, 70, 100, 50);
-        boton5.setBounds(10, 140, 100, 50);
-        boton6.setBounds(110, 140, 100, 50);
-        boton7.setBounds(210, 140, 100, 50);
-        boton8.setBounds(310, 140, 100, 50);
-        boton9.setBounds(10, 210, 100, 50);
-        boton10.setBounds(110, 210, 100, 50);
-        boton11.setBounds(210, 210, 100, 50);
-        boton12.setBounds(310, 210, 100, 50);
-        boton13.setBounds(10, 280, 100, 50);
-        boton14.setBounds(110, 280, 100, 50);
-        boton15.setBounds(210, 280, 100, 50);
-        boton16.setBounds(310, 280, 100, 50);
-        boton17.setBounds(10, 350, 100, 50);
-        boton18.setBounds(110, 350, 100, 50);
-        boton19.setBounds(210, 350, 100, 50);
-        boton20.setBounds(310, 350, 100, 50);
+        MineSquare prueba = new MineSquare();
 
-        panelControl.add(boton1);
-        panelControl.add(boton2);
-        panelControl.add(boton3);
-        panelControl.add(boton4);
-        panelControl.add(boton5);
-        panelControl.add(boton6);
-        panelControl.add(boton7);
-        panelControl.add(boton8);
-        panelControl.add(boton9);
-        panelControl.add(boton10);
-        panelControl.add(boton11);
-        panelControl.add(boton12);
-        panelControl.add(boton13);
-        panelControl.add(boton14);
-        panelControl.add(boton15);
-        panelControl.add(boton16);
-        panelControl.add(boton17);
-        panelControl.add(boton18);
-        panelControl.add(boton19);
-        panelControl.add(boton20);
+
+        for(int i = 0; i<=20; i++){
+            for (int j = 0; j<=20; j++){
+
+            }
+        }
+
     }
 
     private void establecerEtiquetas() {
