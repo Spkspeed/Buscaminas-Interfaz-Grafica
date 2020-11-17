@@ -1,11 +1,9 @@
 package com.javi.Get;
 
 //nuevos imports
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.javi.ProjectoFinal.MineSquare;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -19,7 +17,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +32,19 @@ public class GetsAndPostsOfTheAPIREST {
 
         try {
             System.out.println("Testing 1 - Send Http GET request");
-            obj.sendGetGameRid();
+            MineSquare[][] mineSquare = obj.getGameGrid();
 
+            System.out.println("Array Tamanio 1: " + mineSquare[0].length);
+            System.out.println("Array Tamanio 2: " + mineSquare.length);
+            System.out.println("Minesquare Tamanio 2: " + mineSquare[0][0].getSquareState());
             //System.out.println("Testing 2 - Send Http POST CREATE GAME request");
             //obj.PostCreateGame();
+
+            /*X X X X X
+            X X X X X
+            X X X X X 40x50
+            X X X X X
+            X X X X X*/
 
             //System.out.println("Testing 3 - Send Http POST CREATE-CUSTOM-GAME");
             //obj.PostCreateCustomGame();
@@ -54,7 +60,7 @@ public class GetsAndPostsOfTheAPIREST {
         httpClient.close();
     }
 
-    public MineSquare[][] sendGetGameRid() throws Exception {
+    public MineSquare[][] getGameGrid() throws Exception {
         HttpGet request = new HttpGet("https://minesweeper-api-game.herokuapp.com/get-game-grid?user=1");
 
         // add request headers
@@ -71,6 +77,10 @@ public class GetsAndPostsOfTheAPIREST {
             System.out.println(headers);
             if (entity != null) {
                 String result = EntityUtils.toString(entity);
+                System.out.println("NUEVO RESULT");
+                System.out.println(restoreGameGridJson(result));
+                System.out.println("RESULT EN LENGHT");
+                System.out.println(restoreGameGridJson(result).length);
                 return restoreGameGridJson(result);
             }
         }
