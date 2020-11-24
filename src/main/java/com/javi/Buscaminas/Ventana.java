@@ -2,12 +2,16 @@ package com.javi.Buscaminas;
 
 import com.javi.Get.GetsAndPostsOfTheAPIREST;
 import com.javi.ProjectoFinal.MineSquare;
+import com.javi.ProjectoFinal.SquareState;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -15,7 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class Ventana extends JFrame{
+public class Ventana extends JFrame {
 
     JPanel panelControl = new JPanel();
     JLabel etiqueta1 = new JLabel();
@@ -23,31 +27,12 @@ public class Ventana extends JFrame{
     JButton comenzar = new JButton();
 
     JButton boton1 = new JButton();
-    JButton boton2 = new JButton();
-    JButton boton3 = new JButton();
-    JButton boton4 = new JButton();
-    JButton boton5 = new JButton();
-    JButton boton6 = new JButton();
-    JButton boton7 = new JButton();
-    JButton boton8 = new JButton();
-    JButton boton9 = new JButton();
-    JButton boton10 = new JButton();
-    JButton boton11 = new JButton();
-    JButton boton12 = new JButton();
-    JButton boton13 = new JButton();
-    JButton boton14 = new JButton();
-    JButton boton15 = new JButton();
-    JButton boton16 = new JButton();
-    JButton boton17 = new JButton();
-    JButton boton18 = new JButton();
-    JButton boton19 = new JButton();
-    JButton boton20 = new JButton();
 
-    public Ventana() throws Exception{
+    public Ventana() throws Exception {
         setTitle("Buscaminas");
         setSize(435, 465);
         //setLocation(int,int); //establece la posicion incial de la ventana
-        //setBounds(100,200,500,500); //para establecer primero el tamaño de la ventana y luego la ubicacion
+        //setBounds(100,200,500,500); //para establecer primero la ubicacion y luego el tamaño
         setLocationRelativeTo(null); //establecemos la ventana en el centro de la pantalla
         //setResizable(false); //establecemos si se puede modificar el tamaño de la ventana
         setMinimumSize(new Dimension(435, 465)); //establecemos el tamaño minimo de esta ventana
@@ -58,15 +43,14 @@ public class Ventana extends JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE); // para que le programa termine al tocar la X
     }
 
-    private void iniciarComponentes() throws Exception{
+    private void iniciarComponentes() throws Exception {
         establecerPanel();
         establecerBotones();
-        establecerEtiquetas();
-        eventos();
-
+        //establecerEtiquetas();
+        //apagarEvento();
     }
 
-    private void establecerPanel() throws Exception{
+    private void establecerPanel() throws Exception {
         panelControl = new JPanel(); //creacion de un panel
         panelControl.setBackground(Color.YELLOW); //apra darle color al panel
         this.getContentPane().add(panelControl); //agregamos el panel a la ventana
@@ -74,21 +58,49 @@ public class Ventana extends JFrame{
         panelControl.setSize(50, 50); //para que sirve?
     }
 
-    private void establecerBotones() throws Exception{
+    private void establecerBotones() throws Exception {
         comenzar = new JButton();
         comenzar.setBounds(160, 10, 100, 50);
         comenzar.setText("Reiniciar");
-        panelControl.add(comenzar);
+        //panelControl.add(comenzar);
 
         GetsAndPostsOfTheAPIREST pruebaArray = new GetsAndPostsOfTheAPIREST();
+        MineSquare[][] matriz = pruebaArray.getGameGrid();
 
-        MineSquare prueba = new MineSquare();
+        int x = 10, y = 10, ancho = 45, alto = 45;
+        SquareState obj = null;
 
-
-        for(int i = 0; i<=20; i++){
-            for (int j = 0; j<=20; j++){
-
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[0].length; j++) {
+                boton1 = new JButton();
+                boton1.setBounds(x, y, ancho, alto);
+                boton1.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        boton1.setEnabled(false);
+                    }
+                });
+                switch (matriz[i][j].getSquareState()) {
+                    case REVEALED:
+                        boton1.setEnabled(false);
+                        break;
+                    case QUESTION_MARK:
+                        boton1.setText("2");
+                        break;
+                    case RED_MARK:
+                        boton1.setText("1");
+                        break;
+                    case NOT_REVEALED:
+                        boton1.setText("3");
+                        break;
+                    default:
+                        break;
+                }
+                panelControl.add(boton1);
+                x += 45;
             }
+            y += 45;
+            x = 10;
         }
 
     }
@@ -116,255 +128,29 @@ public class Ventana extends JFrame{
         panelControl.add(etiqueta2); //agregamos las etiquetas al panel
     }
 
-    private void eventos() {
-        ActionListener fallo = new ActionListener() {
+    private void apagarEvento() {
+        MouseListener obj = new MouseListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.red); //apra darle color al panel
-                etiqueta1.setBackground(Color.RED);
-                etiqueta2.setBackground(Color.RED);
-                etiqueta1.setText("¡Fallaste!");
-                etiqueta2.setText("");
+            public void mouseClicked(MouseEvent e) {
                 boton1.setEnabled(false);
-                boton2.setEnabled(false);
-                boton3.setEnabled(false);
-                boton4.setEnabled(false);
-                boton5.setEnabled(false);
-                boton6.setEnabled(false);
-                boton7.setEnabled(false);
-                boton8.setEnabled(false);
-                boton9.setEnabled(false);
-                boton10.setEnabled(false);
-                boton11.setEnabled(false);
-                boton12.setEnabled(false);
-                boton13.setEnabled(false);
-                boton14.setEnabled(false);
-                boton15.setEnabled(false);
-                boton16.setEnabled(false);
-                boton17.setEnabled(false);
-                boton18.setEnabled(false);
-                boton19.setEnabled(false);
-                boton20.setEnabled(false);
             }
-        };
 
-        ActionListener botonA = new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton2.setEnabled(false);
+            public void mousePressed(MouseEvent e) {
             }
-        };
-        ActionListener botonB = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton4.setEnabled(false);
-            }
-        };
-        ActionListener botonC = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton5.setEnabled(false);
-            }
-        };
-        ActionListener botonD = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton6.setEnabled(false);
-            }
-        };
-        ActionListener botonE = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton8.setEnabled(false);
-            }
-        };
-        ActionListener botonF = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton9.setEnabled(false);
-            }
-        };
-        ActionListener botonG = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton10.setEnabled(false);
-            }
-        };
-        ActionListener botonH = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton11.setEnabled(false);
-            }
-        };
-        ActionListener botonI = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton12.setEnabled(false);
-            }
-        };
-        ActionListener botonJ = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton13.setEnabled(false);
-            }
-        };
-        ActionListener botonK = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton15.setEnabled(false);
-            }
-        };
-        ActionListener botonM = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton16.setEnabled(false);
-            }
-        };
-        ActionListener botonN = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton17.setEnabled(false);
-            }
-        };
-        ActionListener botonO = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton18.setEnabled(false);
-            }
-        };
-        ActionListener botonP = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.BLUE); //apra darle color al panel
-                etiqueta2.setBackground(Color.BLUE);
-                etiqueta2.setText("¡Bien!");
-                etiqueta1.setBackground(Color.BLUE);
-                etiqueta1.setText("");
-                boton19.setEnabled(false);
-            }
-        };
 
-        ActionListener reiniciar = new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                panelControl.setBackground(Color.YELLOW); //apra darle color al panel
-                etiqueta1.setBackground(Color.YELLOW);
-                etiqueta1.setText("");
-                etiqueta2.setBackground(Color.YELLOW);
-                etiqueta2.setText("");
-                boton1.setEnabled(true);
-                boton2.setEnabled(true);
-                boton3.setEnabled(true);
-                boton4.setEnabled(true);
-                boton5.setEnabled(true);
-                boton6.setEnabled(true);
-                boton7.setEnabled(true);
-                boton8.setEnabled(true);
-                boton9.setEnabled(true);
-                boton10.setEnabled(true);
-                boton11.setEnabled(true);
-                boton12.setEnabled(true);
-                boton13.setEnabled(true);
-                boton14.setEnabled(true);
-                boton15.setEnabled(true);
-                boton16.setEnabled(true);
-                boton17.setEnabled(true);
-                boton18.setEnabled(true);
-                boton19.setEnabled(true);
-                boton20.setEnabled(true);
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
             }
         };
-
-        comenzar.addActionListener(reiniciar);
-        boton1.addActionListener(fallo);
-        boton3.addActionListener(fallo);
-        boton7.addActionListener(fallo);
-        boton14.addActionListener(fallo);
-        boton20.addActionListener(fallo);
-        boton2.addActionListener(botonA);
-        boton4.addActionListener(botonB);
-        boton5.addActionListener(botonC);
-        boton6.addActionListener(botonD);
-        boton8.addActionListener(botonE);
-        boton9.addActionListener(fallo);
-        boton10.addActionListener(botonG);
-        boton11.addActionListener(botonH);
-        boton12.addActionListener(fallo);
-        boton13.addActionListener(botonJ);
-        boton15.addActionListener(botonK);
-        boton16.addActionListener(fallo);
-        boton17.addActionListener(botonN);
-        boton18.addActionListener(botonO);
-        boton19.addActionListener(botonP);
+        boton1.addMouseListener(obj);
     }
 }

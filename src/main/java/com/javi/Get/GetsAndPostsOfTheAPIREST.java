@@ -31,12 +31,13 @@ public class GetsAndPostsOfTheAPIREST {
         GetsAndPostsOfTheAPIREST obj = new GetsAndPostsOfTheAPIREST();
 
         try {
-            System.out.println("Testing 1 - Send Http GET request");
+            /*System.out.println("Testing 1 - Send Http GET request");
             MineSquare[][] mineSquare = obj.getGameGrid();
 
-            System.out.println("Array Tamanio 1: " + mineSquare[0].length);
-            System.out.println("Array Tamanio 2: " + mineSquare.length);
+            System.out.println("Array Columnas 1: " + mineSquare[0].length);
+            System.out.println("Array Filas 2: " + mineSquare.length);
             System.out.println("Minesquare Tamanio 2: " + mineSquare[0][0].getSquareState());
+            */
             //System.out.println("Testing 2 - Send Http POST CREATE GAME request");
             //obj.PostCreateGame();
 
@@ -69,18 +70,23 @@ public class GetsAndPostsOfTheAPIREST {
         request.addHeader(HttpHeaders.USER_AGENT, "Googlebot");
 
         try (CloseableHttpResponse response = httpClient.execute(request)) {
+            /*
             System.out.println("STATUS");
             System.out.println(response.getStatusLine().toString());
-
+            */
             HttpEntity entity = response.getEntity();
+            /*
             Header headers = entity.getContentType();
             System.out.println(headers);
+            */
             if (entity != null) {
+                
                 String result = EntityUtils.toString(entity);
                 System.out.println("NUEVO RESULT");
                 System.out.println(restoreGameGridJson(result));
                 System.out.println("RESULT EN LENGHT");
                 System.out.println(restoreGameGridJson(result).length);
+               
                 return restoreGameGridJson(result);
             }
         }
