@@ -100,7 +100,7 @@ public class Juego {
                         matrizPrincipal[i-1][j+1]++;
                     }
                     //esquina inferior derecha
-                    if (i>matriz.length-1 && j<matriz[0].length-1 && matrizPrincipal[i+1][j+1]!= -2) {
+                    if (i<matriz.length-1 && j<matriz[0].length-1 && matrizPrincipal[i+1][j+1]!= -2) {
                         matrizPrincipal[i+1][j+1]++;
                     }
                 }

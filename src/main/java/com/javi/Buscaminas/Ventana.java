@@ -4,9 +4,7 @@ import com.javi.Get.GetsAndPostsOfTheAPIREST;
 import com.javi.ProjectoFinal.MineSquare;
 import com.javi.ProjectoFinal.SquareState;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -26,7 +24,9 @@ public class Ventana extends JFrame {
     JLabel etiqueta2 = new JLabel();
     JButton comenzar = new JButton();
 
-    JButton boton1 = new JButton();
+    GetsAndPostsOfTheAPIREST pruebaArray = new GetsAndPostsOfTheAPIREST();
+    MineSquare[][] matriz = pruebaArray.getGameGrid();
+    JButton[][] boton = new JButton[matriz.length][matriz[0].length];
 
     public Ventana() throws Exception {
         setTitle("Buscaminas");
@@ -64,44 +64,22 @@ public class Ventana extends JFrame {
         comenzar.setText("Reiniciar");
         //panelControl.add(comenzar);
 
-        GetsAndPostsOfTheAPIREST pruebaArray = new GetsAndPostsOfTheAPIREST();
-        MineSquare[][] matriz = pruebaArray.getGameGrid();
+
 
         int x = 10, y = 10, ancho = 45, alto = 45;
         SquareState obj = null;
 
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[0].length; j++) {
-                boton1 = new JButton();
-                boton1.setBounds(x, y, ancho, alto);
-                boton1.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        boton1.setEnabled(false);
-                    }
-                });
-                switch (matriz[i][j].getSquareState()) {
-                    case REVEALED:
-                        boton1.setEnabled(false);
-                        break;
-                    case QUESTION_MARK:
-                        boton1.setText("2");
-                        break;
-                    case RED_MARK:
-                        boton1.setText("1");
-                        break;
-                    case NOT_REVEALED:
-                        boton1.setText("3");
-                        break;
-                    default:
-                        break;
-                }
-                panelControl.add(boton1);
+                boton[i][j] = new JButton();
+                boton[i][j].setBounds(x,y,ancho,alto);
+                panelControl.add(boton[i][j]);
                 x += 45;
             }
             y += 45;
             x = 10;
         }
+
 
     }
 
@@ -132,7 +110,7 @@ public class Ventana extends JFrame {
         MouseListener obj = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                boton1.setEnabled(false);
+                        boton[0][9].setEnabled(true);
             }
 
             @Override
@@ -151,6 +129,6 @@ public class Ventana extends JFrame {
             public void mouseExited(MouseEvent e) {
             }
         };
-        boton1.addMouseListener(obj);
+
     }
 }
