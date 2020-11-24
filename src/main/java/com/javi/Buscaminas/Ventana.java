@@ -47,7 +47,6 @@ public class Ventana extends JFrame {
         establecerPanel();
         establecerBotones();
         //establecerEtiquetas();
-        //apagarEvento();
     }
 
     private void establecerPanel() throws Exception {
@@ -104,31 +103,5 @@ public class Ventana extends JFrame {
         etiqueta2.setBackground(Color.YELLOW); //cambiamos el color del fondo de la etiqueta
         etiqueta2.setText("");
         panelControl.add(etiqueta2); //agregamos las etiquetas al panel
-    }
-
-    private void apagarEvento() {
-        MouseListener obj = new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                        boton[0][9].setEnabled(true);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        };
-
     }
 }
