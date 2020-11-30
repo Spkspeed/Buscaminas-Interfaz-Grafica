@@ -7,35 +7,49 @@ import com.javi.ProjectoFinal.SquareState;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 
-public class Ventana extends JFrame {
+public class Ventana extends JFrame implements ActionListener {
 
     JPanel panelControl = new JPanel();
     JLabel etiqueta1 = new JLabel();
     JLabel etiqueta2 = new JLabel();
     JButton comenzar = new JButton();
 
+    JLabel uno = new JLabel();
+    JLabel dos = new JLabel();
+    JLabel tres = new JLabel();
+    JLabel cuatro = new JLabel();
+    JLabel cinco = new JLabel();
+    JLabel seis = new JLabel();
+    JLabel siete = new JLabel();
+    JLabel ocho = new JLabel();
+
+    JLabel cuadriculaImagen = new JLabel();
+
     GetsAndPostsOfTheAPIREST pruebaArray = new GetsAndPostsOfTheAPIREST();
     MineSquare[][] matriz = pruebaArray.getGameGrid();
+    SquareState estadoMina;
     JButton[][] boton = new JButton[matriz.length][matriz[0].length];
+    int matrizPrincipal[][] = new int[matriz.length][matriz[0].length];
+    JOptionPane avisoTexto = new JOptionPane();
+    int x = 10, y = 10, ancho = 25, alto = 25;
 
     public Ventana() throws Exception {
         setTitle("Buscaminas");
-        setSize(435, 465);
+        setSize(matriz.length * ancho + 33, matriz[0].length * alto + 55);
         //setLocation(int,int); //establece la posicion incial de la ventana
         //setBounds(100,200,500,500); //para establecer primero la ubicacion y luego el tamaño
         setLocationRelativeTo(null); //establecemos la ventana en el centro de la pantalla
         //setResizable(false); //establecemos si se puede modificar el tamaño de la ventana
-        setMinimumSize(new Dimension(435, 465)); //establecemos el tamaño minimo de esta ventana
+        setMinimumSize(new Dimension(matriz.length * ancho + 33, matriz[0].length * alto + 55)); //establecemos el tamaño minimo de esta ventana
         //this.getContentPane().setBackground(Color.blue); //para darle color a la ventana
 
         iniciarComponentes();
@@ -47,6 +61,7 @@ public class Ventana extends JFrame {
         establecerPanel();
         establecerBotones();
         //establecerEtiquetas();
+        inicializarMatriz();
     }
 
     private void establecerPanel() throws Exception {
@@ -58,28 +73,28 @@ public class Ventana extends JFrame {
     }
 
     private void establecerBotones() throws Exception {
-        comenzar = new JButton();
+        comenzar = new JButton("reiniciar");
         comenzar.setBounds(160, 10, 100, 50);
-        comenzar.setText("Reiniciar");
+        comenzar.addActionListener(this);
         //panelControl.add(comenzar);
 
-
-
-        int x = 10, y = 10, ancho = 45, alto = 45;
-        SquareState obj = null;
-
+        
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[0].length; j++) {
+
                 boton[i][j] = new JButton();
-                boton[i][j].setBounds(x,y,ancho,alto);
+                boton[i][j].setBounds(x, y, ancho, alto);
+
+                if (matriz[i][j].getSquareState().equals(estadoMina.QUESTION_MARK)) {
+                    boton[i][j].setBackground(Color.blue);
+                }
+                boton[i][j].addActionListener(this);
                 panelControl.add(boton[i][j]);
-                x += 45;
+                x += 25;
             }
-            y += 45;
+            y += 25;
             x = 10;
         }
-
-
     }
 
     private void establecerEtiquetas() {
@@ -104,4 +119,85 @@ public class Ventana extends JFrame {
         etiqueta2.setText("");
         panelControl.add(etiqueta2); //agregamos las etiquetas al panel
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[0].length; j++) {
+                if (e.getSource().equals(boton[i][j])) {
+                    if (matriz[i][j].getSquareMined().equals(false) && matriz[i][j].getSquareState().equals(estadoMina.NOT_REVEALED)) {
+                        boton[i][j].setEnabled(false);
+                        uno = new JLabel();
+                        int prueba = matrizPrincipal[i][j];
+                        boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
+                        
+                    } else if (matriz[i][j].getSquareMined().equals(true)) {
+                        JOptionPane.showMessageDialog(this, "Game Over");
+                        boton[i][j].setEnabled(false);
+                        uno = new JLabel();
+                        int prueba = matrizPrincipal[i][j];
+                        boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
+                    }
+
+                }
+                
+            }
+        }
+    }
+
+    public void inicializarMatriz() throws Exception {
+        //se encarga de encontrar las minas y ubicarlas en la matriz de prueba con un valor de -2
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[0].length; j++) {
+                if (matriz[i][j].getSquareMined().equals(true)) {
+                    matrizPrincipal[i][j] = -2;
+                }
+            }
+        }
+        //para incrementar el valor de los cuadrados alrededor de una mina
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[0].length; j++) {
+                if (matrizPrincipal[i][j] == -2) {
+                    //hacia arriba
+                    if (i > 0 && matrizPrincipal[i - 1][j] != -2) {
+                        matrizPrincipal[i - 1][j]++;
+                    }
+                    //hacia abajo
+                    if (i < matriz.length - 1 && matrizPrincipal[i + 1][j] != -2) {
+                        matrizPrincipal[i + 1][j]++;
+                    }
+                    // hacia izquierda
+                    if (j > 0 && matrizPrincipal[i][j - 1] != -2) {
+                        matrizPrincipal[i][j - 1]++;
+                    }
+                    // hacia derecha
+                    if (j < matriz[0].length - 1 && matrizPrincipal[i][j + 1] != -2) {
+                        matrizPrincipal[i][j + 1]++;
+                    }
+                    //esquina superior izquierda
+                    if (i > 0 && j > 0 && matrizPrincipal[i - 1][j - 1] != -2) {
+                        matrizPrincipal[i - 1][j - 1]++;
+                    }
+                    //esquina inferior izquierda
+                    if (i < matriz.length - 1 && j > 0 && matrizPrincipal[i + 1][j - 1] != -2) {
+                        matrizPrincipal[i + 1][j - 1]++;
+                    }
+                    //esquina superior derecha
+                    if (i > 0 && j < matriz[0].length - 1 && matrizPrincipal[i - 1][j + 1] != -2) {
+                        matrizPrincipal[i - 1][j + 1]++;
+                    }
+                    //esquina inferior derecha
+                    if (i < matriz.length - 1 && j < matriz[0].length - 1 && matrizPrincipal[i + 1][j + 1] != -2) {
+                        matrizPrincipal[i + 1][j + 1]++;
+                    }
+                }
+            }
+        }
+
+    }
 }
+// actualmente puedo mostrar la cuadricula y hacer que reacciones segun un valor por lo tanto
+// ahora tendria que hacer que cada cuadricula se comporte segun como yo queiera
+// y para eso tengo enlazar el actionPerformed con las tres matrices
+// primero la matriz de botones, luego la matriz de la API y luego la que establece la cuadriula.
+//

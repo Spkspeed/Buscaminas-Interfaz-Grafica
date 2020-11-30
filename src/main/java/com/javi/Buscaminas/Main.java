@@ -9,11 +9,11 @@ public class Main {
         
         GetsAndPostsOfTheAPIREST pruebaArray = new GetsAndPostsOfTheAPIREST();
         MineSquare[][] matriz = pruebaArray.getGameGrid();
-        if(matriz.length > 15 || matriz[0].length > 15){
-            System.out.println("ERROR: LA CUADRICULA NO PUEDE TENER MAS DE 15 FILAS O DE 15 COLUMNAS");
-            System.out.println("ERROR: LA CUADRICULA NO PUEDE TENER MAS DE 15 FILAS O DE 15 COLUMNAS");
-            System.out.println("ERROR: LA CUADRICULA NO PUEDE TENER MAS DE 15 FILAS O DE 15 COLUMNAS");
-            System.out.println("ERROR: LA CUADRICULA NO PUEDE TENER MAS DE 15 FILAS O DE 15 COLUMNAS");
+        if(matriz.length > 50 || matriz[0].length > 50){
+            System.out.println("ERROR: LA CUADRICULA NO PUEDE TENER MAS DE 15 FILAS O DE 50 COLUMNAS");
+            System.out.println("ERROR: LA CUADRICULA NO PUEDE TENER MAS DE 15 FILAS O DE 50 COLUMNAS");
+            System.out.println("ERROR: LA CUADRICULA NO PUEDE TENER MAS DE 15 FILAS O DE 50 COLUMNAS");
+            System.out.println("ERROR: LA CUADRICULA NO PUEDE TENER MAS DE 15 FILAS O DE 50 COLUMNAS");
         } else{
             prueba.setVisible(true);
         }
