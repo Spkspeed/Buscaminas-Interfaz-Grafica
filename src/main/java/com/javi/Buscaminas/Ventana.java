@@ -62,6 +62,7 @@ public class Ventana extends JFrame implements ActionListener {
         establecerBotones();
         //establecerEtiquetas();
         inicializarMatriz();
+        mostrarUnCuadradoVacio();
     }
 
     private void establecerPanel() throws Exception {
@@ -85,9 +86,11 @@ public class Ventana extends JFrame implements ActionListener {
                 boton[i][j] = new JButton();
                 boton[i][j].setBounds(x, y, ancho, alto);
 
+                
                 if (matriz[i][j].getSquareState().equals(estadoMina.QUESTION_MARK)) {
                     boton[i][j].setBackground(Color.blue);
                 }
+                
                 boton[i][j].addActionListener(this);
                 panelControl.add(boton[i][j]);
                 x += 25;
@@ -194,6 +197,20 @@ public class Ventana extends JFrame implements ActionListener {
             }
         }
 
+    }
+    public void mostrarUnCuadradoVacio(){
+        int prueba = 0;
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[0].length; j++) {
+                if (matrizPrincipal[i][j] == 0 && prueba == 0) {
+                    boton[i][j].setEnabled(false);
+                    uno = new JLabel();
+                    int imagen = matrizPrincipal[i][j];
+                    boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + imagen + ".png"));
+                    prueba++;
+                }
+            }
+        }
     }
 }
 // actualmente puedo mostrar la cuadricula y hacer que reacciones segun un valor por lo tanto
