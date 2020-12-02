@@ -3,20 +3,18 @@ package com.javi.Buscaminas;
 import com.javi.Get.GetsAndPostsOfTheAPIREST;
 import com.javi.ProjectoFinal.MineSquare;
 import com.javi.ProjectoFinal.SquareState;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.*;
 
-public class Ventana extends JFrame implements ActionListener {
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
+
+public class Ventana extends JFrame implements ActionListener, MouseListener {
 
     JPanel panelControl = new JPanel();
     JLabel etiqueta1 = new JLabel();
@@ -24,13 +22,6 @@ public class Ventana extends JFrame implements ActionListener {
     JButton comenzar = new JButton();
 
     JLabel uno = new JLabel();
-    JLabel dos = new JLabel();
-    JLabel tres = new JLabel();
-    JLabel cuatro = new JLabel();
-    JLabel cinco = new JLabel();
-    JLabel seis = new JLabel();
-    JLabel siete = new JLabel();
-    JLabel ocho = new JLabel();
 
     JLabel cuadriculaImagen = new JLabel();
 
@@ -40,11 +31,12 @@ public class Ventana extends JFrame implements ActionListener {
     JButton[][] boton = new JButton[matriz.length][matriz[0].length];
     int matrizPrincipal[][] = new int[matriz.length][matriz[0].length];
     JOptionPane avisoTexto = new JOptionPane();
+
     int x = 10, y = 10, ancho = 25, alto = 25;
 
     public Ventana() throws Exception {
         setTitle("Buscaminas");
-        setSize(matriz.length * ancho + 33, matriz[0].length * alto + 55);
+        setSize(matriz.length * ancho + 37, matriz[0].length * alto + 65);
         //setLocation(int,int); //establece la posicion incial de la ventana
         //setBounds(100,200,500,500); //para establecer primero la ubicacion y luego el tamaño
         setLocationRelativeTo(null); //establecemos la ventana en el centro de la pantalla
@@ -59,9 +51,9 @@ public class Ventana extends JFrame implements ActionListener {
 
     private void iniciarComponentes() throws Exception {
         establecerPanel();
+        inicializarMatriz();
         establecerBotones();
         //establecerEtiquetas();
-        inicializarMatriz();
         mostrarUnCuadradoVacio();
     }
 
@@ -79,19 +71,30 @@ public class Ventana extends JFrame implements ActionListener {
         comenzar.addActionListener(this);
         //panelControl.add(comenzar);
 
-        
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[0].length; j++) {
 
                 boton[i][j] = new JButton();
                 boton[i][j].setBounds(x, y, ancho, alto);
-
-                
                 if (matriz[i][j].getSquareState().equals(estadoMina.QUESTION_MARK)) {
-                    boton[i][j].setBackground(Color.blue);
+                    boton[i][j].setBackground(Color.black);
+                } else if (matriz[i][j].getSquareState().equals(estadoMina.RED_MARK)){
+                    boton[i][j].setBackground(Color.red);
+                } else if (matriz[i][j].getSquareState().equals(estadoMina.REVEALED)){
+                    if(matriz[i][j].getSquareMined().equals(true)){
+                        boton[i][j].setEnabled(false);
+                        uno = new JLabel();
+                        int prueba = matrizPrincipal[i][j];
+                        boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
+                    } else if (matriz[i][j].getSquareMined().equals(false)){
+                        boton[i][j].setEnabled(false);
+                        uno = new JLabel();
+                        int prueba = matrizPrincipal[i][j];
+                        boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
+                    }
                 }
-                
                 boton[i][j].addActionListener(this);
+                boton[i][j].addMouseListener(this);
                 panelControl.add(boton[i][j]);
                 x += 25;
             }
@@ -128,8 +131,9 @@ public class Ventana extends JFrame implements ActionListener {
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[0].length; j++) {
                 if (e.getSource().equals(boton[i][j])) {
-                    if (matriz[i][j].getSquareMined().equals(false) && matriz[i][j].getSquareState().equals(estadoMina.NOT_REVEALED)) {
+                    if (matriz[i][j].getSquareMined().equals(false)) {
                         boton[i][j].setEnabled(false);
+                        matriz[i][j].setSquareState(estadoMina.REVEALED);
                         uno = new JLabel();
                         int prueba = matrizPrincipal[i][j];
                         boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
@@ -137,13 +141,12 @@ public class Ventana extends JFrame implements ActionListener {
                     } else if (matriz[i][j].getSquareMined().equals(true)) {
                         JOptionPane.showMessageDialog(this, "Game Over");
                         boton[i][j].setEnabled(false);
+                        matriz[i][j].setSquareState(estadoMina.REVEALED);
                         uno = new JLabel();
                         int prueba = matrizPrincipal[i][j];
                         boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
                     }
-
                 }
-                
             }
         }
     }
@@ -211,6 +214,58 @@ public class Ventana extends JFrame implements ActionListener {
                 }
             }
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int x = 10, y = 10;
+        if (SwingUtilities.isRightMouseButton(e)){
+            for (int i = 0; i < matriz.length; i++) {
+                for (int j = 0; j < matriz[0].length; j++) {
+                    if (e.getSource().equals(boton[i][j])) {
+                        if (matriz[i][j].getSquareState().equals(estadoMina.QUESTION_MARK)){
+                            boton[i][j].setVisible(false);
+                            boton[i][j] = new JButton();
+                            boton[i][j].setBounds(x, y, ancho, alto);
+                            boton[i][j].addActionListener(this);
+                            boton[i][j].setVisible(true);
+                            matriz[i][j].setSquareState(estadoMina.NOT_REVEALED);
+                            boton[i][j].addMouseListener(this);
+                            panelControl.add(boton[i][j]);
+                        } else if (matriz[i][j].getSquareState().equals(estadoMina.NOT_REVEALED)){
+                            matriz[i][j].setSquareState(estadoMina.RED_MARK);
+                            boton[i][j].setBackground(Color.red);
+                        } else if (matriz[i][j].getSquareState().equals(estadoMina.RED_MARK)){
+                            matriz[i][j].setSquareState(estadoMina.QUESTION_MARK);
+                            boton[i][j].setBackground(Color.black);
+                        }
+                    }
+                    x += 25;
+                }
+                y += 25;
+                x = 10;
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
 // actualmente puedo mostrar la cuadricula y hacer que reacciones segun un valor por lo tanto
