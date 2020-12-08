@@ -82,11 +82,12 @@ public class GetsAndPostsOfTheAPIREST {
             if (entity != null) {
                 
                 String result = EntityUtils.toString(entity);
+                /*
                 System.out.println("NUEVO RESULT");
                 System.out.println(restoreGameGridJson(result));
                 System.out.println("RESULT EN LENGHT");
                 System.out.println(restoreGameGridJson(result).length);
-               
+                */
                 return restoreGameGridJson(result);
             }
         }
@@ -123,6 +124,37 @@ public class GetsAndPostsOfTheAPIREST {
         try (CloseableHttpClient httpClient = HttpClients.createDefault();CloseableHttpResponse response = httpClient.execute(postCCG)) {
             System.out.println("Respuesta CCG");
             System.out.println(EntityUtils.toString(response.getEntity()));
+        }
+    }
+
+    public void getRedMark(int i, int j) throws Exception {
+        HttpGet request = new HttpGet("https://minesweeper-api-game.herokuapp.com/square-selection-red-mark?col=" + j + "&row=" + i + "&user=1");
+
+        try (CloseableHttpResponse response = httpClient.execute(request)) {
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                String result = EntityUtils.toString(entity);
+            }
+        }
+    }
+    public void getQuestionMark(int i, int j) throws Exception {
+        HttpGet request = new HttpGet("https://minesweeper-api-game.herokuapp.com/square-selection-question-mark?col=" + j + "&row=" + i + "&user=1");
+
+        try (CloseableHttpResponse response = httpClient.execute(request)) {
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                String result = EntityUtils.toString(entity);
+            }
+        }
+    }
+    public void getSquareReveal(int i, int j) throws Exception {
+        HttpGet request = new HttpGet("https://minesweeper-api-game.herokuapp.com/square-selection-reveal?col=" + j + "&row=" + i + "&user=1");
+
+        try (CloseableHttpResponse response = httpClient.execute(request)) {
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                String result = EntityUtils.toString(entity);
+            }
         }
     }
 

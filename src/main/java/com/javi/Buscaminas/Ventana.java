@@ -53,7 +53,7 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
         establecerPanel();
         inicializarMatriz();
         establecerBotones();
-        //establecerEtiquetas();
+
         mostrarUnCuadradoVacio();
     }
 
@@ -66,14 +66,12 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
     }
 
     private void establecerBotones() throws Exception {
-        comenzar = new JButton("reiniciar");
-        comenzar.setBounds(160, 10, 100, 50);
-        comenzar.addActionListener(this);
-        //panelControl.add(comenzar);
-
+        x = 10;
+        y = 10;
+        ancho = 25;
+        alto = 25;
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[0].length; j++) {
-
                 boton[i][j] = new JButton();
                 boton[i][j].setBounds(x, y, ancho, alto);
                 if (matriz[i][j].getSquareState().equals(estadoMina.QUESTION_MARK)) {
@@ -83,23 +81,28 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                 } else if (matriz[i][j].getSquareState().equals(estadoMina.REVEALED)){
                     if(matriz[i][j].getSquareMined().equals(true)){
                         boton[i][j].setEnabled(false);
-                        uno = new JLabel();
                         int prueba = matrizPrincipal[i][j];
                         boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
                     } else if (matriz[i][j].getSquareMined().equals(false)){
                         boton[i][j].setEnabled(false);
-                        uno = new JLabel();
                         int prueba = matrizPrincipal[i][j];
                         boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
                     }
                 }
                 boton[i][j].addActionListener(this);
                 boton[i][j].addMouseListener(this);
+                boton[i][j].setVisible(true);
                 panelControl.add(boton[i][j]);
                 x += 25;
             }
             y += 25;
             x = 10;
+        }
+        for (int refresh1 = 0; refresh1 < matriz.length; refresh1++){
+            for (int refresh2 = 0; refresh2 < matriz[0].length; refresh2++){
+                boton[refresh1][refresh2].validate();
+                boton[refresh1][refresh2].repaint();
+            }
         }
     }
 
@@ -134,10 +137,28 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                     if (matriz[i][j].getSquareMined().equals(false)) {
                         boton[i][j].setEnabled(false);
                         matriz[i][j].setSquareState(estadoMina.REVEALED);
-                        uno = new JLabel();
                         int prueba = matrizPrincipal[i][j];
                         boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
-                        
+                        try {
+                            pruebaArray.getSquareReveal(j,i);
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                        for (int borrador1 = 0; borrador1 < matriz.length; borrador1++){
+                            for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++){
+                                boton[borrador1][borrador2].setVisible(false);
+                            }
+                        }
+                        try {
+                            setMatrizDeLaApi(pruebaArray.getGameGrid());
+                            x = 10;
+                            y = 10;
+                            ancho = 25;
+                            alto = 25;
+                            iniciarComponentes();
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
                     } else if (matriz[i][j].getSquareMined().equals(true)) {
                         JOptionPane.showMessageDialog(this, "Game Over");
                         boton[i][j].setEnabled(false);
@@ -145,6 +166,11 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                         uno = new JLabel();
                         int prueba = matrizPrincipal[i][j];
                         boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
+                        try {
+                            pruebaArray.getSquareReveal(j,i);
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 }
             }
@@ -157,6 +183,8 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
             for (int j = 0; j < matriz[0].length; j++) {
                 if (matriz[i][j].getSquareMined().equals(true)) {
                     matrizPrincipal[i][j] = -2;
+                } else if (matriz[i][j].getSquareMined().equals(false)){
+                    matrizPrincipal[i][j] = 0;
                 }
             }
         }
@@ -235,9 +263,42 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                         } else if (matriz[i][j].getSquareState().equals(estadoMina.NOT_REVEALED)){
                             matriz[i][j].setSquareState(estadoMina.RED_MARK);
                             boton[i][j].setBackground(Color.red);
+                            try {
+                                pruebaArray.getRedMark(j,i);
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
+                            for (int borrador1 = 0; borrador1 < matriz.length; borrador1++){
+                                for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++){
+                                    boton[borrador1][borrador2].setVisible(false);
+                                }
+                            }
+                            try {
+                                setMatrizDeLaApi(pruebaArray.getGameGrid());
+                                iniciarComponentes();
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
                         } else if (matriz[i][j].getSquareState().equals(estadoMina.RED_MARK)){
                             matriz[i][j].setSquareState(estadoMina.QUESTION_MARK);
                             boton[i][j].setBackground(Color.black);
+                            try {
+                                pruebaArray.getQuestionMark(j,i);
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
+
+                            for (int borrador1 = 0; borrador1 < matriz.length; borrador1++){
+                                for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++){
+                                    boton[borrador1][borrador2].setVisible(false);
+                                }
+                            }
+                            try {
+                                setMatrizDeLaApi(pruebaArray.getGameGrid());
+                                iniciarComponentes();
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
                         }
                     }
                     x += 25;
@@ -246,6 +307,9 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                 x = 10;
             }
         }
+
+        panelControl.validate();
+        panelControl.repaint();
     }
 
     @Override
@@ -267,6 +331,7 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+    public void setMatrizDeLaApi(MineSquare[][] matriz){this.matriz = matriz;}
 }
 // actualmente puedo mostrar la cuadricula y hacer que reacciones segun un valor por lo tanto
 // ahora tendria que hacer que cada cuadricula se comporte segun como yo queiera
