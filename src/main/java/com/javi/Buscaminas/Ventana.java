@@ -307,9 +307,6 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                 x = 10;
             }
         }
-
-        panelControl.validate();
-        panelControl.repaint();
     }
 
     @Override
@@ -325,6 +322,8 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
     @Override
     public void mouseEntered(MouseEvent e) {
 
+        panelControl.validate();
+        panelControl.repaint();
     }
 
     @Override

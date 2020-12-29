@@ -62,7 +62,7 @@ public class GetsAndPostsOfTheAPIREST {
     }
 
     public MineSquare[][] getGameGrid() throws Exception {
-        HttpGet request = new HttpGet("https://minesweeper-api-game.herokuapp.com/get-game-grid?user=1");
+        HttpGet request = new HttpGet("https://bucaminasprueba.herokuapp.com/get-game-grid?user=1");
 
         // add request headers
         System.out.println("request headers?");
@@ -101,7 +101,7 @@ public class GetsAndPostsOfTheAPIREST {
 
     private void PostCreateGame() throws Exception {
 
-        HttpPost post = new HttpPost("https://minesweeper-api-game.herokuapp.com/create-game?user=raul");
+        HttpPost post = new HttpPost("https://bucaminasprueba.herokuapp.com/create-game?user=1");
 
         // add request parameter, form parameters
         List<NameValuePair> urlParameters = new ArrayList<>();
@@ -128,7 +128,7 @@ public class GetsAndPostsOfTheAPIREST {
     }
 
     public void getRedMark(int i, int j) throws Exception {
-        HttpGet request = new HttpGet("https://minesweeper-api-game.herokuapp.com/square-selection-red-mark?col=" + j + "&row=" + i + "&user=1");
+        HttpGet request = new HttpGet("https://bucaminasprueba.herokuapp.com/square-selection-red-mark?col=" + j + "&row=" + i + "&user=1");
 
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             HttpEntity entity = response.getEntity();
@@ -138,7 +138,7 @@ public class GetsAndPostsOfTheAPIREST {
         }
     }
     public void getQuestionMark(int i, int j) throws Exception {
-        HttpGet request = new HttpGet("https://minesweeper-api-game.herokuapp.com/square-selection-question-mark?col=" + j + "&row=" + i + "&user=1");
+        HttpGet request = new HttpGet("https://bucaminasprueba.herokuapp.com/square-selection-question-mark?col=" + j + "&row=" + i + "&user=1");
 
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             HttpEntity entity = response.getEntity();
@@ -148,7 +148,7 @@ public class GetsAndPostsOfTheAPIREST {
         }
     }
     public void getSquareReveal(int i, int j) throws Exception {
-        HttpGet request = new HttpGet("https://minesweeper-api-game.herokuapp.com/square-selection-reveal?col=" + j + "&row=" + i + "&user=1");
+        HttpGet request = new HttpGet("https://bucaminasprueba.herokuapp.com/square-selection-reveal?col=" + j + "&row=" + i + "&user=1");
 
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             HttpEntity entity = response.getEntity();
@@ -157,5 +157,7 @@ public class GetsAndPostsOfTheAPIREST {
             }
         }
     }
+    
+    //agregar getSquaredNotRevealMark
 
 }
