@@ -251,6 +251,7 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
             for (int i = 0; i < matriz.length; i++) {
                 for (int j = 0; j < matriz[0].length; j++) {
                     if (e.getSource().equals(boton[i][j])) {
+                        //si la mina esta con la marca negra, con el siguiente click izquierdo la transforma en estado normal sin revelar
                         if (matriz[i][j].getSquareState().equals(estadoMina.QUESTION_MARK)){
                             boton[i][j].setVisible(false);
                             boton[i][j] = new JButton();
@@ -260,6 +261,25 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                             matriz[i][j].setSquareState(estadoMina.NOT_REVEALED);
                             boton[i][j].addMouseListener(this);
                             panelControl.add(boton[i][j]);
+                            try {
+                                pruebaArray.getSquareNotRevealMark(j,i);
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
+                            //para hacer que la cuadricula se borre (desabilite) y poder poner otra adecuadamente
+                            for (int borrador1 = 0; borrador1 < matriz.length; borrador1++){
+                                for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++){
+                                    boton[borrador1][borrador2].setVisible(false);
+                                }
+                            }
+                            //ejecuta de nuevo la aplicacion para se traiga la cuadricula actualizada
+                            try {
+                                setMatrizDeLaApi(pruebaArray.getGameGrid());
+                                iniciarComponentes();
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
+                            //si el estado de la marca es normal la transforma en marca roja
                         } else if (matriz[i][j].getSquareState().equals(estadoMina.NOT_REVEALED)){
                             matriz[i][j].setSquareState(estadoMina.RED_MARK);
                             boton[i][j].setBackground(Color.red);
@@ -268,17 +288,20 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }
+                            //para hacer que la cuadricula se borre (desabilite) y poder poner otra adecuadamente
                             for (int borrador1 = 0; borrador1 < matriz.length; borrador1++){
                                 for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++){
                                     boton[borrador1][borrador2].setVisible(false);
                                 }
                             }
+                            //ejecuta de nuevo la aplicacion para se traiga la cuadricula actualizada
                             try {
                                 setMatrizDeLaApi(pruebaArray.getGameGrid());
                                 iniciarComponentes();
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }
+                            //cuando se clickea una marka roja la transforma en question mark
                         } else if (matriz[i][j].getSquareState().equals(estadoMina.RED_MARK)){
                             matriz[i][j].setSquareState(estadoMina.QUESTION_MARK);
                             boton[i][j].setBackground(Color.black);
@@ -287,7 +310,7 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }
-
+                            //funcion ya explicada
                             for (int borrador1 = 0; borrador1 < matriz.length; borrador1++){
                                 for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++){
                                     boton[borrador1][borrador2].setVisible(false);

@@ -157,7 +157,15 @@ public class GetsAndPostsOfTheAPIREST {
             }
         }
     }
-    
-    //agregar getSquaredNotRevealMark
+    public void getSquareNotRevealMark(int i, int j) throws Exception {
+        HttpGet request = new HttpGet("https://bucaminasprueba.herokuapp.com/square-selection-not-reveal-mark?col=" + j + "&row=" + i + "&user=1");
+
+        try (CloseableHttpResponse response = httpClient.execute(request)) {
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                String result = EntityUtils.toString(entity);
+            }
+        }
+    }
 
 }
