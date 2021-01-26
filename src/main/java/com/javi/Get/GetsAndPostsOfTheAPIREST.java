@@ -3,8 +3,7 @@ package com.javi.Get;
 //nuevos imports
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.javi.ProjectoFinal.MineSquare;
-import org.apache.http.Header;
+import com.javi.estructura.MineSquare;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;

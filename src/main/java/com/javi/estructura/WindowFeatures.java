@@ -1,6 +1,5 @@
-package com.javi.ProjectoFinal;
+package com.javi.estructura;
 
-import java.util.List;
 import java.util.ArrayList;
 
 public class WindowFeatures {

@@ -1,4 +1,4 @@
-package com.javi.ProjectoFinal;
+package com.javi.estructura;
 
 /**
  * Basic square object for storing states

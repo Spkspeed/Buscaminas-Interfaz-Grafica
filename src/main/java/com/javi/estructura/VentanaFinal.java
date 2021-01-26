@@ -1,10 +1,7 @@
-package com.javi.ProjectoFinal;
+package com.javi.estructura;
 
 import java.awt.Dimension;
 import javax.swing.JFrame;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
-
-
 
 
 public class VentanaFinal extends JFrame{

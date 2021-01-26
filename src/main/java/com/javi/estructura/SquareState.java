@@ -1,4 +1,4 @@
-package com.javi.ProjectoFinal;
+package com.javi.estructura;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

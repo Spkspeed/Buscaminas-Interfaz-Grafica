@@ -1,7 +1,7 @@
 package com.javi.Buscaminas;
 
 import com.javi.Get.GetsAndPostsOfTheAPIREST;
-import com.javi.ProjectoFinal.MineSquare;
+import com.javi.estructura.MineSquare;
 
 public class Main {
     public static void main(String[] args) throws Exception{

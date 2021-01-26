@@ -1,9 +1,8 @@
 package com.javi.Buscaminas;
 
 import com.javi.Get.GetsAndPostsOfTheAPIREST;
-import com.javi.ProjectoFinal.MineSquare;
-import com.javi.ProjectoFinal.SquareState;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import com.javi.estructura.MineSquare;
+import com.javi.estructura.SquareState;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,8 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
-
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 public class Ventana extends JFrame implements ActionListener, MouseListener {
 

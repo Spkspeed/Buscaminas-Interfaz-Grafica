@@ -1,7 +1,7 @@
 package com.javi.TutorialDeBuscaminas;
 
 import com.javi.Get.GetsAndPostsOfTheAPIREST;
-import com.javi.ProjectoFinal.MineSquare;
+import com.javi.estructura.MineSquare;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
