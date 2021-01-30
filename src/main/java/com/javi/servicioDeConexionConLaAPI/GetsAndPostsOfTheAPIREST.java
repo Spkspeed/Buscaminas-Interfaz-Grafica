@@ -1,4 +1,4 @@
-package com.javi.Get;
+package com.javi.servicioDeConexionConLaAPI;
 
 //nuevos imports
 import com.fasterxml.jackson.databind.ObjectMapper;

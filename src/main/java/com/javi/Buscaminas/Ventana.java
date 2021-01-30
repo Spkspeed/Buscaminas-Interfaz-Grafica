@@ -1,6 +1,6 @@
 package com.javi.Buscaminas;
 
-import com.javi.Get.GetsAndPostsOfTheAPIREST;
+import com.javi.servicioDeConexionConLaAPI.GetsAndPostsOfTheAPIREST;
 import com.javi.estructura.MineSquare;
 import com.javi.estructura.SquareState;
 

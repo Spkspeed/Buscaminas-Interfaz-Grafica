@@ -1,4 +1,4 @@
-package com.javi.prueba;
+package com.javi.ejercicios;
 
 import java.util.Scanner;
 
