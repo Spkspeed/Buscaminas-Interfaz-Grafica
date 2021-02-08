@@ -72,5 +72,12 @@ class Tareas {
         System.out.println(list.size());
         System.out.println(list.get(1) instanceof Boolean);
     }
+
+    public void tarea27(){
+        String[] array = {"abc","2","10","0","1","3","4","5","1pato","22","21"};
+        List<String> list = Arrays.asList(array);
+        Collections.sort(list);
+        System.out.println(Arrays.toString(array));
+    }
 }
 
