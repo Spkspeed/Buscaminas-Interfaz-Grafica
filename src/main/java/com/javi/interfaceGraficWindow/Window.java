@@ -1,8 +1,8 @@
-package com.javi.Buscaminas;
+package com.javi.interfaceGraficWindow;
 
-import com.javi.servicioDeConexionConLaAPI.GetsAndPostsOfTheAPIREST;
-import com.javi.estructura.MineSquare;
-import com.javi.estructura.SquareState;
+import com.javi.service.apiConnectionService;
+import com.javi.squaresProperties.MineSquare;
+import com.javi.squaresProperties.SquareState;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,27 +11,23 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 
-public class Ventana extends JFrame implements ActionListener, MouseListener {
+public class Window extends JFrame implements ActionListener, MouseListener {
 
     JPanel panelControl = new JPanel();
-    JLabel etiqueta1 = new JLabel();
-    JLabel etiqueta2 = new JLabel();
-    JButton comenzar = new JButton();
 
     JLabel uno = new JLabel();
 
-    JLabel cuadriculaImagen = new JLabel();
 
-    GetsAndPostsOfTheAPIREST pruebaArray = new GetsAndPostsOfTheAPIREST();
+    apiConnectionService pruebaArray = new apiConnectionService();
     MineSquare[][] matriz = pruebaArray.getGameGrid();
     SquareState estadoMina;
     JButton[][] boton = new JButton[matriz.length][matriz[0].length];
     int matrizPrincipal[][] = new int[matriz.length][matriz[0].length];
-    JOptionPane avisoTexto = new JOptionPane();
+
 
     int x = 10, y = 10, ancho = 25, alto = 25;
 
-    public Ventana() throws Exception {
+    public Window() throws Exception {
         setTitle("Buscaminas");
         setSize(matriz.length * ancho + 37, matriz[0].length * alto + 65);
         //setLocation(int,int); //establece la posicion incial de la ventana
@@ -43,14 +39,13 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
 
         iniciarComponentes();
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE); // para que le programa termine al tocar la X
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     private void iniciarComponentes() throws Exception {
         establecerPanel();
         inicializarMatriz();
         establecerBotones();
-
         mostrarUnCuadradoVacio();
     }
 
@@ -73,14 +68,14 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                 boton[i][j].setBounds(x, y, ancho, alto);
                 if (matriz[i][j].getSquareState().equals(estadoMina.QUESTION_MARK)) {
                     boton[i][j].setBackground(Color.black);
-                } else if (matriz[i][j].getSquareState().equals(estadoMina.RED_MARK)){
+                } else if (matriz[i][j].getSquareState().equals(estadoMina.RED_MARK)) {
                     boton[i][j].setBackground(Color.red);
-                } else if (matriz[i][j].getSquareState().equals(estadoMina.REVEALED)){
-                    if(matriz[i][j].getSquareMined().equals(true)){
+                } else if (matriz[i][j].getSquareState().equals(estadoMina.REVEALED)) {
+                    if (matriz[i][j].getSquareMined().equals(true)) {
                         boton[i][j].setEnabled(false);
                         int prueba = matrizPrincipal[i][j];
                         boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
-                    } else if (matriz[i][j].getSquareMined().equals(false)){
+                    } else if (matriz[i][j].getSquareMined().equals(false)) {
                         boton[i][j].setEnabled(false);
                         int prueba = matrizPrincipal[i][j];
                         boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
@@ -95,35 +90,12 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
             y += 25;
             x = 10;
         }
-        for (int refresh1 = 0; refresh1 < matriz.length; refresh1++){
-            for (int refresh2 = 0; refresh2 < matriz[0].length; refresh2++){
+        for (int refresh1 = 0; refresh1 < matriz.length; refresh1++) {
+            for (int refresh2 = 0; refresh2 < matriz[0].length; refresh2++) {
                 boton[refresh1][refresh2].validate();
                 boton[refresh1][refresh2].repaint();
             }
         }
-    }
-
-    private void establecerEtiquetas() {
-        //creo los las etiquetas que tambien puedo aplicarlarle los valores como constructor
-        etiqueta1 = new JLabel();
-        etiqueta1.setBounds(10, 20, 125, 30); //para establecer la ubicacion de la etiqueta y cuantos pixeles dispondra
-        etiqueta1.setHorizontalAlignment(SwingConstants.CENTER); //para centrar las letras en su propio fondo
-        etiqueta1.setForeground(Color.BLACK); //para darle color a las letras
-        etiqueta1.setFont(new Font("arial", Font.PLAIN, 30)); //establecemos el tipo de letra, estilo y tamaño
-        etiqueta1.setOpaque(true); // permitimos cambiar el diseño por defecto del fondo
-        etiqueta1.setBackground(Color.YELLOW); //cambiamos el color del fondo de la etiqueta
-        etiqueta1.setText("");
-        panelControl.add(etiqueta1); //agregamos las etiquetas al panel
-
-        etiqueta2 = new JLabel();
-        etiqueta2.setBounds(300, 20, 100, 30); //para establecer la ubicacion de la etiqueta y cuantos pixeles dispondra
-        etiqueta2.setHorizontalAlignment(SwingConstants.CENTER); //para centrar las letras en su propio fondo
-        etiqueta2.setForeground(Color.BLACK); //para darle color a las letras
-        etiqueta2.setFont(new Font("arial", Font.PLAIN, 30)); //establecemos el tipo de letra, estilo y tamaño
-        etiqueta2.setOpaque(true); // permitimos cambiar el diseño por defecto del fondo
-        etiqueta2.setBackground(Color.YELLOW); //cambiamos el color del fondo de la etiqueta
-        etiqueta2.setText("");
-        panelControl.add(etiqueta2); //agregamos las etiquetas al panel
     }
 
     @Override
@@ -137,12 +109,12 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                         int prueba = matrizPrincipal[i][j];
                         boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
                         try {
-                            pruebaArray.getSquareReveal(j,i);
+                            pruebaArray.getSquareReveal(j, i);
                         } catch (Exception e1) {
                             e1.printStackTrace();
                         }
-                        for (int borrador1 = 0; borrador1 < matriz.length; borrador1++){
-                            for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++){
+                        for (int borrador1 = 0; borrador1 < matriz.length; borrador1++) {
+                            for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++) {
                                 boton[borrador1][borrador2].setVisible(false);
                             }
                         }
@@ -164,7 +136,7 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                         int prueba = matrizPrincipal[i][j];
                         boton[i][j].setIcon(new ImageIcon("imagenesBuscaminasSinColor/" + prueba + ".png"));
                         try {
-                            pruebaArray.getSquareReveal(j,i);
+                            pruebaArray.getSquareReveal(j, i);
                         } catch (Exception e1) {
                             e1.printStackTrace();
                         }
@@ -180,7 +152,7 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
             for (int j = 0; j < matriz[0].length; j++) {
                 if (matriz[i][j].getSquareMined().equals(true)) {
                     matrizPrincipal[i][j] = -2;
-                } else if (matriz[i][j].getSquareMined().equals(false)){
+                } else if (matriz[i][j].getSquareMined().equals(false)) {
                     matrizPrincipal[i][j] = 0;
                 }
             }
@@ -226,7 +198,8 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
         }
 
     }
-    public void mostrarUnCuadradoVacio(){
+
+    public void mostrarUnCuadradoVacio() {
         int prueba = 0;
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[0].length; j++) {
@@ -244,12 +217,12 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         int x = 10, y = 10;
-        if (SwingUtilities.isRightMouseButton(e)){
+        if (SwingUtilities.isRightMouseButton(e)) {
             for (int i = 0; i < matriz.length; i++) {
                 for (int j = 0; j < matriz[0].length; j++) {
                     if (e.getSource().equals(boton[i][j])) {
                         //si la mina esta con la marca negra, con el siguiente click izquierdo la transforma en estado normal sin revelar
-                        if (matriz[i][j].getSquareState().equals(estadoMina.QUESTION_MARK)){
+                        if (matriz[i][j].getSquareState().equals(estadoMina.QUESTION_MARK)) {
                             boton[i][j].setVisible(false);
                             boton[i][j] = new JButton();
                             boton[i][j].setBounds(x, y, ancho, alto);
@@ -259,13 +232,13 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                             boton[i][j].addMouseListener(this);
                             panelControl.add(boton[i][j]);
                             try {
-                                pruebaArray.getSquareNotRevealMark(j,i);
+                                pruebaArray.getSquareNotRevealMark(j, i);
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }
                             //para hacer que la cuadricula se borre (desabilite) y poder poner otra adecuadamente
-                            for (int borrador1 = 0; borrador1 < matriz.length; borrador1++){
-                                for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++){
+                            for (int borrador1 = 0; borrador1 < matriz.length; borrador1++) {
+                                for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++) {
                                     boton[borrador1][borrador2].setVisible(false);
                                 }
                             }
@@ -277,17 +250,17 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                                 e1.printStackTrace();
                             }
                             //si el estado de la marca es normal la transforma en marca roja
-                        } else if (matriz[i][j].getSquareState().equals(estadoMina.NOT_REVEALED)){
+                        } else if (matriz[i][j].getSquareState().equals(estadoMina.NOT_REVEALED)) {
                             matriz[i][j].setSquareState(estadoMina.RED_MARK);
                             boton[i][j].setBackground(Color.red);
                             try {
-                                pruebaArray.getRedMark(j,i);
+                                pruebaArray.getRedMark(j, i);
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }
                             //para hacer que la cuadricula se borre (desabilite) y poder poner otra adecuadamente
-                            for (int borrador1 = 0; borrador1 < matriz.length; borrador1++){
-                                for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++){
+                            for (int borrador1 = 0; borrador1 < matriz.length; borrador1++) {
+                                for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++) {
                                     boton[borrador1][borrador2].setVisible(false);
                                 }
                             }
@@ -299,17 +272,17 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
                                 e1.printStackTrace();
                             }
                             //cuando se clickea una marka roja la transforma en question mark
-                        } else if (matriz[i][j].getSquareState().equals(estadoMina.RED_MARK)){
+                        } else if (matriz[i][j].getSquareState().equals(estadoMina.RED_MARK)) {
                             matriz[i][j].setSquareState(estadoMina.QUESTION_MARK);
                             boton[i][j].setBackground(Color.black);
                             try {
-                                pruebaArray.getQuestionMark(j,i);
+                                pruebaArray.getQuestionMark(j, i);
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }
                             //funcion ya explicada
-                            for (int borrador1 = 0; borrador1 < matriz.length; borrador1++){
-                                for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++){
+                            for (int borrador1 = 0; borrador1 < matriz.length; borrador1++) {
+                                for (int borrador2 = 0; borrador2 < matriz[0].length; borrador2++) {
                                     boton[borrador1][borrador2].setVisible(false);
                                 }
                             }
@@ -350,10 +323,8 @@ public class Ventana extends JFrame implements ActionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
-    public void setMatrizDeLaApi(MineSquare[][] matriz){this.matriz = matriz;}
+
+    public void setMatrizDeLaApi(MineSquare[][] matriz) {
+        this.matriz = matriz;
+    }
 }
-// actualmente puedo mostrar la cuadricula y hacer que reacciones segun un valor por lo tanto
-// ahora tendria que hacer que cada cuadricula se comporte segun como yo queiera
-// y para eso tengo enlazar el actionPerformed con las tres matrices
-// primero la matriz de botones, luego la matriz de la API y luego la que establece la cuadriula.
-//

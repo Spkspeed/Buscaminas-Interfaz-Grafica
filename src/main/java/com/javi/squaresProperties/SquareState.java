@@ -1,4 +1,4 @@
-package com.javi.estructura;
+package com.javi.squaresProperties;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

@@ -1,4 +1,4 @@
-package com.javi.estructura;
+package com.javi.squaresProperties;
 
 /**
  * Basic square object for storing states

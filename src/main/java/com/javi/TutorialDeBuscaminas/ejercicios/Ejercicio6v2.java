@@ -1,4 +1,4 @@
-package com.javi.ejercicios;
+package com.javi.TutorialDeBuscaminas.ejercicios;
 
 import java.util.Scanner;
 

@@ -1,7 +1,7 @@
 package com.javi.TutorialDeBuscaminas;
 
-import com.javi.servicioDeConexionConLaAPI.GetsAndPostsOfTheAPIREST;
-import com.javi.estructura.MineSquare;
+import com.javi.service.apiConnectionService;
+import com.javi.squaresProperties.MineSquare;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -55,7 +55,7 @@ public class Juego {
     }
     
     public void inicializarMatriz() throws Exception{
-        GetsAndPostsOfTheAPIREST pruebaArray = new GetsAndPostsOfTheAPIREST();
+        apiConnectionService pruebaArray = new apiConnectionService();
         MineSquare[][] matriz = pruebaArray.getGameGrid();
         int matrizPrincipal[][] = new int[matriz.length][matriz[0].length];
         
