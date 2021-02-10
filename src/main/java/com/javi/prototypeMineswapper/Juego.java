@@ -1,4 +1,4 @@
-package com.javi.TutorialDeBuscaminas;
+package com.javi.prototypeMineswapper;
 
 import com.javi.service.apiConnectionService;
 import com.javi.squaresProperties.MineSquare;

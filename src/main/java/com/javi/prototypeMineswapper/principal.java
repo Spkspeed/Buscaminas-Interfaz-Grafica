@@ -1,4 +1,4 @@
-package com.javi.TutorialDeBuscaminas;
+package com.javi.prototypeMineswapper;
 
 public class principal {
     public static void main(String[] args) throws Exception {

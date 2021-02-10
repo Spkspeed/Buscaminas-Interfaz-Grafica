@@ -1,4 +1,4 @@
-package com.javi.TutorialDeBuscaminas.ejercicios;
+package com.javi.prototypeMineswapper.ejercicios;
 
 import java.util.Scanner;
 

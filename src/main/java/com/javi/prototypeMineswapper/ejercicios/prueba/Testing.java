@@ -1,4 +1,4 @@
-package com.javi.TutorialDeBuscaminas.ejercicios.prueba;
+package com.javi.prototypeMineswapper.ejercicios.prueba;
 
 public class Testing {
     Object message(){
