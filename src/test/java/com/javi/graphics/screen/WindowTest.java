@@ -17,6 +17,7 @@ public class WindowTest{
         MineSquare[][] matriz = pruebaArray.getGameGrid();
         if (matriz.length > 50 || matriz[0].length > 50) {
             System.out.println("ERROR: LA CUADRICULA NO PUEDE TENER MAS DE 15 FILAS O DE 50 COLUMNAS");
+            System.out.println("hola");
         } else {
             prueba.setVisible(true);
         }

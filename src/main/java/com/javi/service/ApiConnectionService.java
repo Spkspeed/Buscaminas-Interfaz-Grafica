@@ -62,8 +62,8 @@ public class ApiConnectionService {
 
     }
 
-    public void PostCreateCustomGame() throws Exception {
-        HttpPost postCCG = new HttpPost("https://minesweeper-api-game.herokuapp.com/create-custom-game?cols=5&rows=5&totalMines=1&user=Javier");
+    public void postCreateCustomGame(int col, int rows, String user) throws Exception {
+        HttpPost postCCG = new HttpPost("https://minesweeper-api-game.herokuapp.com/create-custom-game?cols=" + col + "&rows=" + rows + "&totalMines=1&user=" + user);
         try (CloseableHttpClient httpClient = HttpClients.createDefault(); CloseableHttpResponse response = httpClient.execute(postCCG)) {
             System.out.println("Respuesta CCG");
             System.out.println(EntityUtils.toString(response.getEntity()));
