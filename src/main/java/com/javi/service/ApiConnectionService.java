@@ -1,7 +1,5 @@
 package com.javi.service;
 
-//nuevos imports
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.javi.squaresProperties.MineSquare;
@@ -21,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class apiConnectionService {
+public class ApiConnectionService {
 
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
 
@@ -45,8 +43,8 @@ public class apiConnectionService {
         return mapper.readValue(gameGridJson, MineSquare[][].class);
     }
 
-    private void PostCreateGame() throws Exception {
-        HttpPost post = new HttpPost("https://bucaminasprueba.herokuapp.com/create-game?user=1");
+    public void PostCreateGame(String user) throws Exception {
+        HttpPost post = new HttpPost("https://bucaminasprueba.herokuapp.com/create-game?user=" + user);
         // add request parameter, form parameters
         List<NameValuePair> urlParameters = new ArrayList<>();
         urlParameters.add(new BasicNameValuePair("username", "abc"));
@@ -64,7 +62,7 @@ public class apiConnectionService {
 
     }
 
-    private void PostCreateCustomGame() throws Exception {
+    public void PostCreateCustomGame() throws Exception {
         HttpPost postCCG = new HttpPost("https://minesweeper-api-game.herokuapp.com/create-custom-game?cols=5&rows=5&totalMines=1&user=Javier");
         try (CloseableHttpClient httpClient = HttpClients.createDefault(); CloseableHttpResponse response = httpClient.execute(postCCG)) {
             System.out.println("Respuesta CCG");

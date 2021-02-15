@@ -1,6 +1,6 @@
 package com.javi.prototypeMineswapper;
 
-import com.javi.service.apiConnectionService;
+import com.javi.service.ApiConnectionService;
 import com.javi.squaresProperties.MineSquare;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -55,7 +55,7 @@ public class Juego {
     }
     
     public void inicializarMatriz() throws Exception{
-        apiConnectionService pruebaArray = new apiConnectionService();
+        ApiConnectionService pruebaArray = new ApiConnectionService();
         MineSquare[][] matriz = pruebaArray.getGameGrid();
         int matrizPrincipal[][] = new int[matriz.length][matriz[0].length];
         

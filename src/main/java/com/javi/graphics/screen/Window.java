@@ -1,6 +1,6 @@
-package com.javi.interfaceGraficWindow;
+package com.javi.graphics.screen;
 
-import com.javi.service.apiConnectionService;
+import com.javi.service.ApiConnectionService;
 import com.javi.squaresProperties.MineSquare;
 import com.javi.squaresProperties.SquareState;
 
@@ -18,7 +18,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
     JLabel uno = new JLabel();
 
 
-    apiConnectionService pruebaArray = new apiConnectionService();
+    ApiConnectionService pruebaArray = new ApiConnectionService();
     MineSquare[][] matriz = pruebaArray.getGameGrid();
     SquareState estadoMina;
     JButton[][] boton = new JButton[matriz.length][matriz[0].length];
