@@ -26,7 +26,7 @@ public class apiConnectionService {
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
 
     public MineSquare[][] getGameGrid() throws Exception {
-        HttpGet request = new HttpGet("https://bucaminasprueba.herokuapp.com/get-game-grid?user=1");
+        HttpGet request = new HttpGet("https://bucaminasprueba.herokuapp.com/get-game-grid?user=" + "jugador");
 
         try (CloseableHttpResponse response = httpClient.execute(request)) {
 
