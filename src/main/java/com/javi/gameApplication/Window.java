@@ -1,4 +1,4 @@
-package com.javi.interfaceGraficWindow;
+package com.javi.gameApplication;
 
 import com.javi.service.apiConnectionService;
 import com.javi.squaresProperties.MineSquare;

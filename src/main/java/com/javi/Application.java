@@ -1,10 +1,11 @@
 package com.javi;
 
+// SOLO DESPLIEGA EN EL LOCAL HOST
+/*
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-//para desplegar un puerto
 @SpringBootApplication
 public class Application {
 
@@ -12,3 +13,4 @@ public class Application {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
     }
 }
+*/
